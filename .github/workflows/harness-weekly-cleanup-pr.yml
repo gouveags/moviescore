@@ -1,0 +1,54 @@
+name: Harness Weekly Cleanup PR
+
+on:
+  schedule:
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+
+jobs:
+  weekly-cleanup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run harness cleanup
+        run: pnpm harness:cleanup
+
+      - name: Generate maintenance reports
+        run: |
+          pnpm maintenance:harness-report > docs/engineering/HARNESS_HYGIENE_REPORT.md
+          pnpm maintenance:repo-report >> docs/engineering/HARNESS_HYGIENE_REPORT.md
+
+      - name: Create cleanup PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore: weekly harness maintenance report"
+          branch: chore/weekly-harness-maintenance
+          title: "chore: weekly harness maintenance report"
+          body: |
+            Automated weekly maintenance PR.
+            - updated harness and repository hygiene report
+            - ran session cleanup script
+          labels: |
+            automation
+            maintenance
+          delete-branch: true

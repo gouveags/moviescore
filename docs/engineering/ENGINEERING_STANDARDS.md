@@ -45,6 +45,7 @@
 - Use `scripts/harness/agent-harness.sh` to start/stop services and persist logs.
 - Avoid ad-hoc long-running processes in the primary checkout.
 - Prefer `pnpm harness -- bootstrap <name>` for new agent tasks.
+- For long-running flows, follow `docs/engineering/HARNESS_AUTONOMY_RUNBOOK.md`.
 
 ## Observability
 
@@ -56,3 +57,4 @@
 
 - `pnpm policy:check` must pass locally and in CI.
 - Do not bypass policy checks in git hooks or workflow config.
+- Review weekly outcomes using `docs/engineering/HARNESS_SCORECARD.md`.

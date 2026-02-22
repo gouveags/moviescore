@@ -326,3 +326,41 @@ Quality checks were moved to release-triggered workflows, which prevented tests/
 ### Follow-up
 
 - Mark CI workflow checks as required status checks for the `main` branch protection rule.
+
+## 2026-02-22 - Complete harness-engineering core with session lifecycle, telemetry loop, and automation
+
+### Context
+
+Harness and observability baseline existed, but execution still depended on manual steps for session lifecycle, telemetry querying, UI validation artifacts, and maintenance hygiene.
+
+### Decision
+
+- Expand harness CLI to include session lifecycle and reporting:
+  - `session-create`, `session-start`, `session-stop`, `session-destroy`, `session-list`
+  - `obs-query-logs`, `obs-query-metrics`, `obs-query-traces`
+  - `ui-validate`, `report`
+- Add session cleanup and maintenance scripts:
+  - `scripts/harness/cleanup-expired-sessions.sh`
+  - `scripts/maintenance/harness-gc-report.sh`
+  - `scripts/maintenance/repo-hygiene-report.sh`
+- Add local OSS telemetry stack for logs + metrics + traces:
+  - Loki, Promtail, Prometheus, Tempo, Grafana
+- Add backend telemetry surfaces:
+  - request IDs and trace IDs in structured request logs
+  - trace span logs for key backend use-cases
+  - Prometheus metrics endpoint at `/metrics`
+- Add Playwright smoke test and CI e2e workflow with artifact upload.
+- Add nightly report and weekly cleanup PR automation workflows.
+- Strengthen `policy:check` to enforce new files/references and harness capabilities.
+
+### Consequences
+
+- Agents can run repeatable autonomous loops with deterministic setup, evidence capture, and teardown.
+- Debugging is faster with one-command log/metric/trace retrieval.
+- Repository hygiene and session cleanup are continuously monitored.
+- Policy drift is blocked earlier in hooks and CI.
+
+### Follow-up
+
+- Add distributed trace propagation to downstream integrations once external services are introduced.
+- Expand Playwright scenarios to cover API-driven decision flows beyond smoke coverage.

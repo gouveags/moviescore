@@ -3,6 +3,10 @@
 This repository uses split automation:
 
 - CI checks (`typecheck`, `format:check`, `lint`, `test`, `build`) run on pull requests to `main` and pushes to `main` via `.github/workflows/ci.yml`.
+- E2E smoke checks run on pull requests via `.github/workflows/e2e-smoke.yml`.
+- Nightly and weekly harness maintenance automation runs via:
+  - `.github/workflows/harness-nightly-report.yml`
+  - `.github/workflows/harness-weekly-cleanup-pr.yml`
 - Deployment workflows run only when a GitHub Release is published.
 
 ## Frontend (Vercel)
