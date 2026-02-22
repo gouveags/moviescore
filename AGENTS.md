@@ -40,6 +40,8 @@ Read this index before making changes. Keep docs in sync with code changes.
 - `docs/engineering/DEPLOYMENT_SETUP.md`
 - `docs/engineering/AI_HARNESS.md`
 - `docs/engineering/OBSERVABILITY.md`
+- `docs/engineering/HARNESS_AUTONOMY_RUNBOOK.md`
+- `docs/engineering/HARNESS_SCORECARD.md`
 
 ## Core Engineering Rules
 
@@ -70,6 +72,7 @@ Read this index before making changes. Keep docs in sync with code changes.
 - Use `docs/engineering/AI_HARNESS.md` harness commands for non-trivial coding sessions.
 - Ensure production-impacting backend changes include structured logging and observability doc updates.
 - Run `pnpm policy:check` before opening PRs that touch harness, logging, hooks, or workflow policy.
+- Produce `pnpm harness -- report <worktree-path>` output for long-running debugging sessions.
 
 ## AGENTS.md in Subprojects
 

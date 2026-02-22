@@ -16,3 +16,7 @@ scrape_configs:
         labels:
           job: moviescore-harness
           __path__: /tmp/moviescore-harness/*/.harness/logs/*.log
+    relabel_configs:
+      - source_labels: [__path__]
+        regex: ".*/moviescore-harness/([^/]+)/.*"
+        target_label: harness_session

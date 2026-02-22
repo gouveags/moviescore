@@ -31,10 +31,11 @@ type RatingInput = {
 };
 
 const createUser = async (database: Database, input: UserInput): Promise<void> => {
-  await database.run(
-    "INSERT INTO users (id, email, display_name) VALUES (?, ?, ?)",
-    [input.id, input.email, input.displayName],
-  );
+  await database.run("INSERT INTO users (id, email, display_name) VALUES (?, ?, ?)", [
+    input.id,
+    input.email,
+    input.displayName,
+  ]);
 };
 
 const createTitle = async (database: Database, input: TitleInput): Promise<void> => {

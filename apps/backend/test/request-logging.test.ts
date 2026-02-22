@@ -7,19 +7,46 @@ describe("request logging", () => {
     const response = await app.request("/health");
 
     expect(response.status).toBe(200);
-    expect(logSpy).toHaveBeenCalledTimes(1);
+    const payloads = logSpy.mock.calls
+      .map((call) => call[0])
+      .filter((value): value is string => typeof value === "string")
+      .map((value) => JSON.parse(value) as Record<string, unknown>);
+    const payload = payloads.find((item) => item.event === "http.request");
 
-    const [rawLog] = logSpy.mock.calls[0] ?? [];
-    expect(typeof rawLog).toBe("string");
-
-    const payload = JSON.parse(String(rawLog)) as Record<string, unknown>;
+    expect(payload).toBeDefined();
     expect(payload).toMatchObject({
       event: "http.request",
       method: "GET",
       path: "/health",
       status: 200,
     });
-    expect(typeof payload.durationMs).toBe("number");
+    expect(typeof payload?.durationMs).toBe("number");
+    expect(typeof payload?.requestId).toBe("string");
+    expect(typeof payload?.traceId).toBe("string");
+
+    logSpy.mockRestore();
+  });
+
+  it("emits trace span logs for key backend use-cases", async () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => undefined);
+
+    const response = await app.request("/api/info");
+
+    expect(response.status).toBe(200);
+
+    const payloads = logSpy.mock.calls
+      .map((call) => call[0])
+      .filter((value): value is string => typeof value === "string")
+      .map((value) => JSON.parse(value) as Record<string, unknown>);
+    const tracePayload = payloads.find((item) => item.event === "trace.span");
+
+    expect(tracePayload).toBeDefined();
+    expect(tracePayload).toMatchObject({
+      event: "trace.span",
+      name: "usecase.getInfo",
+    });
+    expect(typeof tracePayload?.traceId).toBe("string");
+    expect(typeof tracePayload?.durationMs).toBe("number");
 
     logSpy.mockRestore();
   });

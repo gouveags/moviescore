@@ -10,10 +10,14 @@ Backend HTTP requests must emit structured JSON logs to stdout with at least:
 - `status`
 - `durationMs`
 - `timestamp`
+- `requestId`
+- `traceId`
 
 Current implementation:
 
 - `apps/backend/src/platform/observability/request-logger.ts`
+- `apps/backend/src/platform/observability/metrics.ts`
+- `apps/backend/src/platform/observability/trace.ts`
 
 ## Local Development Logs
 
@@ -31,6 +35,8 @@ Optional local log aggregation stack (all open source):
 - Loki
 - Promtail
 - Grafana
+- Prometheus
+- Tempo
 
 Run with:
 
@@ -52,7 +58,27 @@ Config files:
 - `ops/observability/docker-compose.yml`
 - `ops/observability/loki-config.yml`
 - `ops/observability/promtail-config.yml`
+- `ops/observability/prometheus.yml`
+- `ops/observability/tempo-config.yml`
 - `ops/observability/grafana/provisioning/datasources/loki.yml`
+- `ops/observability/grafana/provisioning/datasources/prometheus.yml`
+- `ops/observability/grafana/provisioning/datasources/tempo.yml`
+
+## Harness Query Loop
+
+Use harness commands to retrieve telemetry quickly:
+
+```bash
+pnpm harness -- obs-query-logs /tmp/moviescore-harness/my-task error
+pnpm harness -- obs-query-metrics /tmp/moviescore-harness/my-task moviescore_http_requests_total
+pnpm harness -- obs-query-traces /tmp/moviescore-harness/my-task usecase
+```
+
+Backend metrics endpoint:
+
+```bash
+curl http://127.0.0.1:8787/metrics
+```
 
 ## Production Logs
 

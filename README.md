@@ -71,6 +71,8 @@ Start from:
 - `docs/engineering/DEPLOYMENT_SETUP.md`
 - `docs/engineering/AI_HARNESS.md`
 - `docs/engineering/OBSERVABILITY.md`
+- `docs/engineering/HARNESS_AUTONOMY_RUNBOOK.md`
+- `docs/engineering/HARNESS_SCORECARD.md`
 - `docs/frontend/FRONTEND_ARCHITECTURE.md`
 - `docs/frontend/FRONTEND_DESIGN_GUIDELINES.md`
 - `docs/backend/BACKEND_ARCHITECTURE.md`
