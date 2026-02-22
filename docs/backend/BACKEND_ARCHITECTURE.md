@@ -164,6 +164,11 @@ Each module should follow:
 - Use timeouts and fallback behavior for external provider calls.
 - Add structured logging for recommendation decisions and failure paths.
 
+## Observability Baseline
+
+- Request-level structured logs are emitted by middleware in `apps/backend/src/platform/observability/request-logger.ts`.
+- Log retrieval and credential setup are documented in `docs/engineering/OBSERVABILITY.md`.
+
 ## Quality Gates
 
 - Unit tests for services and domain rules

@@ -4,7 +4,7 @@ This file defines default instructions for coding agents working in `moviescore`
 
 ## Project Context
 
-MovieScore is an open-source social platform for rating movies and TV series, sharing with friends, and getting recommendations.
+MovieScore is an open-source decision engine for choosing what to watch next using expectation-vs-reality signals.
 
 ## Monorepo Layout
 
@@ -27,6 +27,7 @@ Read this index before making changes. Keep docs in sync with code changes.
 
 - `docs/engineering/MONOREPO_ARCHITECTURE.md`
 - `docs/frontend/FRONTEND_ARCHITECTURE.md`
+- `docs/frontend/FRONTEND_DESIGN_GUIDELINES.md`
 - `docs/backend/BACKEND_ARCHITECTURE.md`
 
 ### Engineering Standards
@@ -37,6 +38,8 @@ Read this index before making changes. Keep docs in sync with code changes.
 - `docs/engineering/DECISION_LOG.md`
 - `docs/engineering/GIT_WORKFLOW.md`
 - `docs/engineering/DEPLOYMENT_SETUP.md`
+- `docs/engineering/AI_HARNESS.md`
+- `docs/engineering/OBSERVABILITY.md`
 
 ## Core Engineering Rules
 
@@ -64,6 +67,8 @@ Read this index before making changes. Keep docs in sync with code changes.
 - For every decision made, add/update an entry in `docs/engineering/DECISION_LOG.md`.
 - Do not finalize a change set until related docs are updated.
 - If a command/test cannot run in current environment, document the gap clearly.
+- Use `docs/engineering/AI_HARNESS.md` harness commands for non-trivial coding sessions.
+- Ensure production-impacting backend changes include structured logging and observability doc updates.
 
 ## AGENTS.md in Subprojects
 

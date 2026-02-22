@@ -38,3 +38,15 @@
 ## Maintenance Goals
 
 - Keep automated tests fast to preserve tight feedback loops for developers.
+
+## Agent Execution Harness
+
+- Use isolated harness worktrees for non-trivial coding sessions.
+- Use `scripts/harness/agent-harness.sh` to start/stop services and persist logs.
+- Avoid ad-hoc long-running processes in the primary checkout.
+
+## Observability
+
+- Backend HTTP endpoints must produce structured logs.
+- Production-impacting behavior must include a documented way to retrieve logs.
+- Keep `docs/engineering/OBSERVABILITY.md` aligned with code behavior.
