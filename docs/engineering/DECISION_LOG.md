@@ -176,3 +176,25 @@ Need explicit frontend/backend linting and formatting tooling, plus mandatory qu
 ### Follow-up
 
 - Monitor CI duration and optimize the slowest test suites when they regress.
+
+## 2026-02-22 - Run CI on mainline changes and keep deployment release-only
+
+### Context
+
+Quality checks were moved to release-triggered workflows, which prevented tests/lint/format/typecheck from running on pull requests and merges to `main`.
+
+### Decision
+
+- Trigger `.github/workflows/ci.yml` on `pull_request` and `push` for `main`.
+- Keep `.github/workflows/deploy-frontend.yml` and `.github/workflows/deploy-backend.yml` release-triggered (`release.published`).
+- Remove format/lint/test/build verification steps from deploy workflows so release workflows focus on deployment only.
+
+### Consequences
+
+- Pull requests and mainline merges now get immediate quality feedback.
+- Release workflows are shorter and scoped to production deployment.
+- Branch protection can rely on CI checks that run before merge.
+
+### Follow-up
+
+- Mark CI workflow checks as required status checks for the `main` branch protection rule.
