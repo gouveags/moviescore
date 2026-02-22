@@ -152,3 +152,27 @@ Existing product docs were centered on a social rating platform. Product directi
 
 - Translate this product direction into backend domain models and API contracts.
 - Add concrete UX/UI specs and acceptance criteria per core component.
+
+## 2026-02-22 - Standardize ESLint/Prettier and enforce quality gates in CI/CD
+
+### Context
+
+Need explicit frontend/backend linting and formatting tooling, plus mandatory quality checks in both CI and release deploy pipelines.
+
+### Decision
+
+- Add shared ESLint + Prettier configuration at repository root.
+- Add `format` and `format:check` scripts to frontend, backend, and shared packages.
+- Update CI workflow to include `format:check` alongside `typecheck`, `lint`, `test`, and `build`.
+- Update frontend/backend release deploy workflows to run `format:check`, `lint`, `test`, and `build` before deployment.
+- Set a testing maintenance goal to keep tests as fast as possible.
+
+### Consequences
+
+- Higher code quality consistency across apps and shared package.
+- Faster detection of style, lint, and regression issues before release.
+- Slightly longer pipeline duration due to additional gates, offset by reduced deployment risk.
+
+### Follow-up
+
+- Monitor CI duration and optimize the slowest test suites when they regress.
