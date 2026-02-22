@@ -17,6 +17,12 @@ Harness entrypoint:
 
 ## Commands
 
+Bootstrap a worktree (create + install dependencies):
+
+```bash
+pnpm harness -- bootstrap my-task
+```
+
 Create a harness worktree:
 
 ```bash
@@ -48,6 +54,14 @@ Stop both services:
 pnpm harness -- stop /tmp/moviescore-harness/my-task
 ```
 
+Start local open-source observability stack (Loki + Promtail + Grafana):
+
+```bash
+pnpm harness -- obs-up
+pnpm harness -- obs-status
+pnpm harness -- obs-down
+```
+
 ## Log and PID Paths
 
 Inside each harness worktree:
@@ -64,3 +78,12 @@ Inside each harness worktree:
 - For non-trivial coding sessions, create and use a harness worktree first.
 - Do not run long-lived dev servers directly in the primary repository checkout.
 - Reference captured log file paths in PR descriptions when debugging behavior.
+- Keep default harness root as `/tmp/moviescore-harness` when using local log aggregation.
+
+## Policy Enforcement
+
+- CI and git hooks run `pnpm policy:check`.
+- Policy check verifies:
+  - harness and observability docs are present and referenced
+  - backend request logging middleware is wired
+  - Husky hook scripts are v10-safe (no deprecated loader lines)

@@ -8,11 +8,15 @@ HARNESS_ROOT="${MOVIESCORE_HARNESS_ROOT:-/tmp/moviescore-harness}"
 usage() {
   cat <<'EOF'
 Usage:
+  agent-harness.sh bootstrap <name>
   agent-harness.sh create <name>
   agent-harness.sh start <worktree-path>
   agent-harness.sh stop <worktree-path>
   agent-harness.sh status <worktree-path>
   agent-harness.sh tail <worktree-path> [backend|frontend]
+  agent-harness.sh obs-up
+  agent-harness.sh obs-down
+  agent-harness.sh obs-status
 EOF
 }
 
@@ -83,6 +87,23 @@ print_service_status() {
   echo "$service_name log: $log_file"
 }
 
+ensure_docker_available() {
+  if ! command -v docker >/dev/null 2>&1; then
+    echo "docker is required for observability stack commands" >&2
+    exit 1
+  fi
+}
+
+compose_file_path() {
+  echo "$ROOT_DIR/ops/observability/docker-compose.yml"
+}
+
+run_compose() {
+  local compose_file
+  compose_file="$(compose_file_path)"
+  docker compose -f "$compose_file" "$@"
+}
+
 if [[ "${1:-}" == "--" ]]; then
   shift
 fi
@@ -90,6 +111,21 @@ fi
 command_name="${1:-}"
 
 case "$command_name" in
+  bootstrap)
+    worktree_name="${2:-}"
+    if [[ -z "$worktree_name" ]]; then
+      usage
+      exit 1
+    fi
+
+    "$0" create "$worktree_name"
+    worktree_path="$HARNESS_ROOT/$worktree_name"
+    (
+      cd "$worktree_path"
+      pnpm install --frozen-lockfile
+    )
+    echo "Bootstrapped worktree: $worktree_path"
+    ;;
   create)
     worktree_name="${2:-}"
     if [[ -z "$worktree_name" ]]; then
@@ -170,6 +206,18 @@ case "$command_name" in
         exit 1
         ;;
     esac
+    ;;
+  obs-up)
+    ensure_docker_available
+    run_compose up -d
+    ;;
+  obs-down)
+    ensure_docker_available
+    run_compose down
+    ;;
+  obs-status)
+    ensure_docker_available
+    run_compose ps
     ;;
   *)
     usage

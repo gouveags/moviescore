@@ -54,6 +54,7 @@ Required log-access credentials:
 - `CLOUDFLARE_ACCOUNT_ID`
 
 See `docs/engineering/OBSERVABILITY.md` for log format and operations guidance.
+For local open-source aggregation, use the harness observability stack (`pnpm harness -- obs-up`).
 
 ## Database (Neon)
 

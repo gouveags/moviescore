@@ -4,14 +4,15 @@
   "packageManager": "pnpm@10.30.1",
   "scripts": {
     "build": "turbo run build",
-    "check:commit": "lint-staged && pnpm lint:architecture",
-    "check:push": "turbo run lint typecheck test build --continue",
+    "check:commit": "lint-staged && pnpm lint:architecture && pnpm policy:check",
+    "check:push": "pnpm policy:check && turbo run lint typecheck test build --continue",
     "dev": "turbo run dev --parallel",
     "harness": "bash scripts/harness/agent-harness.sh",
     "format": "turbo run format",
     "format:check": "turbo run format:check",
     "lint:architecture": "pnpm --filter @moviescore/backend run lint:architecture",
     "lint": "turbo run lint",
+    "policy:check": "bash scripts/policy/verify-harness-policy.sh",
     "prepare": "husky",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck"

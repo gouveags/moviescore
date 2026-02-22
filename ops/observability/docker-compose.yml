@@ -1,0 +1,29 @@
+services:
+  loki:
+    image: grafana/loki:3.4.2
+    ports:
+      - "3100:3100"
+    command: ["-config.file=/etc/loki/config.yml"]
+    volumes:
+      - ./loki-config.yml:/etc/loki/config.yml:ro
+
+  promtail:
+    image: grafana/promtail:3.4.2
+    command: ["-config.file=/etc/promtail/config.yml"]
+    volumes:
+      - ./promtail-config.yml:/etc/promtail/config.yml:ro
+      - /tmp:/tmp:ro
+    depends_on:
+      - loki
+
+  grafana:
+    image: grafana/grafana:11.4.0
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    depends_on:
+      - loki
