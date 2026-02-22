@@ -35,6 +35,7 @@ Read this index before making changes. Keep docs in sync with code changes.
 - `docs/engineering/TESTING_STRATEGY.md`
 - `docs/engineering/DOCUMENTATION_POLICY.md`
 - `docs/engineering/DECISION_LOG.md`
+- `docs/engineering/GIT_WORKFLOW.md`
 
 ## Core Engineering Rules
 
@@ -52,6 +53,7 @@ Read this index before making changes. Keep docs in sync with code changes.
 10. Every code or product decision must be documented.
 11. Every change must include corresponding documentation updates.
 12. Keep docs updated when behavior or architecture changes.
+13. Never commit directly to `main`; use feature branches and pull requests.
 
 ## Working Agreement for Agents
 

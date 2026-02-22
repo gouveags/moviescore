@@ -41,3 +41,22 @@ Require tests before implementation and require docs updates for every meaningfu
 ### Follow-up
 
 - Add CI checks for tests and documentation verification policy
+
+## 2026-02-22 - Protect main branch and require PR workflow
+
+### Context
+
+Need to prevent direct commits to `main` and enforce code review discipline.
+
+### Decision
+
+Enable GitHub branch protection for `main` with required pull requests and at least one approval. Enforce for admins.
+
+### Consequences
+
+- All changes must be merged through pull requests.
+- Better review quality and lower risk of unreviewed regressions.
+
+### Follow-up
+
+- Add CI checks as required status checks once pipelines are in place.
