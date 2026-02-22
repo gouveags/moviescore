@@ -10,8 +10,8 @@
     "types": ["vitest/globals", "@testing-library/jest-dom"],
     "allowJs": false,
     "noEmit": true,
-    "incremental": true
+    "incremental": false
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

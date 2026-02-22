@@ -4,7 +4,7 @@ import { migrateDatabase } from "../migrate";
 
 const run = async (): Promise<void> => {
   const config = resolveDatabaseConfig(process.env);
-  const database = createDatabase(config);
+  const database = await createDatabase(config);
 
   try {
     await migrateDatabase(database);

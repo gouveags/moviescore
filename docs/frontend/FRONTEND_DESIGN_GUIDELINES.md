@@ -22,6 +22,25 @@ Signature move:
 
 - Data labels and score badges integrated into cards and headers (not decorative-only)
 
+## Product Voice and Microcopy
+
+Use an opinionated, plainspoken product voice across landing, auth, and in-app surfaces.
+
+Voice rules:
+
+- Keep lines short and direct. No jargon padding.
+- Prefer active verbs and decisive tone.
+- Sound confident without being noisy or arrogant.
+- Favor practical outcomes over abstract promises.
+- Write like a product built by people with taste and urgency.
+
+Microcopy examples:
+
+- Prefer: "Watch less junk. Pick better tonight."
+- Prefer: "Call it straight after credits."
+- Avoid: "Our platform facilitates enhanced viewing experiences."
+- Avoid: generic startup slogans and fluffy motivational phrasing.
+
 ## Typography System
 
 ### Font Pairing
@@ -47,17 +66,18 @@ Fallback stacks:
 
 Core palette:
 
-- Background: `#F6F3EE`
-- Foreground text: `#1A1A1A`
-- Primary accent: `#D95D39`
-- Secondary utility accent: `#1F6E6E`
-- Warning/downweight tone: `#A63D40`
-- Positive/uplift tone: `#2E7D32`
+- Background base: `#090B10`
+- Elevated surface: `#131722`
+- Foreground text: `#ECEFF7`
+- Primary accent: `#FF6B3D`
+- Secondary utility accent: `#5DC2BB`
+- Warning/downweight tone: `#FF7F99`
+- Positive/uplift tone: `#7DDEA3`
 
 Surface rules:
 
-- Use subtle paper-grain texture on large surfaces
-- Prefer clear card boundaries and controlled shadows
+- Use subtle grain + radial atmospheric gradients on large surfaces
+- Keep card edges explicit with controlled, dark-appropriate shadows
 - Keep accents functional (status, intent, emphasis), not decorative noise
 
 ## Mobile vs Desktop Style Strategy
@@ -88,26 +108,32 @@ Constraint:
 Required core components:
 
 1. `RecommendationCard`
+
 - Title, artwork, predicted satisfaction, confidence, platform badges
 - Delta signal chip (historical expectation mismatch relevance)
 
 2. `ExpectationInput`
+
 - 0-10 input with optional reason tags
 - Fast submit interaction with clear pre-watch state
 
 3. `PostWatchRating`
+
 - Post-watch score entry with optional short review
 - Enforce watched-state dependency in UI flow
 
 4. `DeltaBadge`
+
 - Visual classification: exceeded / matched / disappointed
 - Compact numeric label with explainable tooltip copy
 
 5. `AvailabilityPanel`
+
 - Region-specific provider list
 - Explicit data freshness/disclaimer line
 
 6. `TasteTrendMiniChart`
+
 - Lightweight trend snapshot for genre/director performance over time
 
 ## Motion Guidelines

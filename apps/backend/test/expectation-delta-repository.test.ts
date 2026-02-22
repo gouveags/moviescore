@@ -10,7 +10,7 @@ import {
 
 describe("expectation delta repository", () => {
   it("computes expectation minus rating for a user and title", async () => {
-    const database = createDatabase({
+    const database = await createDatabase({
       client: "sqlite",
       sqlitePath: ":memory:",
     });

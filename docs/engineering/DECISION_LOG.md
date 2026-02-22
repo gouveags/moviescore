@@ -391,3 +391,72 @@ Frontend home page was still a bootstrap placeholder and did not communicate the
 - Connect CTAs to real onboarding/auth routes once auth flow is implemented.
 - Add visual regression and e2e checks for landing page key breakpoints.
 - Expand Playwright scenarios to cover API-driven decision flows beyond smoke coverage.
+
+## 2026-02-22 - Implement secure cookie-based auth platform with 2FA and recovery
+
+### Context
+
+MovieScore needed a production-oriented authentication baseline (register/login/logout, recovery, 2FA) that stays secure by default and works with local SQLite development while remaining portable to Postgres in production.
+
+### Decision
+
+- Implement backend auth module with clean boundaries (`domain/application/delivery`) and repository-backed persistence.
+- Use server-managed sessions with rotating access/refresh tokens via `HttpOnly` cookies.
+- Add TOTP 2FA setup/enable/disable and recovery code support.
+- Add password recovery request/confirm flow with hashed reset tokens.
+- Encrypt MFA secret at rest and hash passwords with PBKDF2-SHA256.
+- Add integration tests for core auth and refresh-token replay protection.
+
+### Consequences
+
+- Frontend never stores auth tokens directly.
+- Session protection and token replay resistance are enforced server-side.
+- Production deployments now require explicit auth secrets.
+
+### Follow-up
+
+- Add rate limiting and IP/device anomaly checks to auth routes.
+- Add managed email delivery integration for recovery tokens.
+
+## 2026-02-22 - Adopt true-dark UI baseline and opinionated product voice guidelines
+
+### Context
+
+Landing/auth surfaces needed a stronger visual identity and concise, high-attitude microcopy aligned with the product's decision-engine positioning.
+
+### Decision
+
+- Make frontend default to a true-dark design system.
+- Preserve mobile-first behavior with distinct mobile/desktop compositions.
+- Document explicit microcopy style rules (short, direct, opinionated, practical).
+- Keep docs naming style principles directly without referencing individuals.
+
+### Consequences
+
+- UI now has clearer brand distinction and stronger readability in dark environments.
+- Copy consistency can be enforced during future feature work.
+
+### Follow-up
+
+- Add screenshot-based visual regression checks for primary dark-theme routes.
+
+## 2026-02-22 - Use node runtime for local harness backend sessions
+
+### Context
+
+UI/auth end-to-end validation needed local SQLite persistence and seeded-user login in harness sessions. Running backend via worker dev runtime caused local SQLite adapter constraints and unstable harness process tracking.
+
+### Decision
+
+- Add `dev:node` backend entrypoint (`tsx src/dev-server.ts`).
+- Update harness startup to run backend in node runtime on port `8787` and frontend on port `3000`.
+- Harden harness process management with detached startup and explicit startup-failure log output.
+
+### Consequences
+
+- Local harness UI validation now reliably exercises seeded auth flows.
+- Worker deployment compatibility remains verified through backend build dry-run.
+
+### Follow-up
+
+- Add optional harness health-check command for `/api/auth/me` and `/metrics` readiness.

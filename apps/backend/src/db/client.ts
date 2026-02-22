@@ -1,8 +1,14 @@
 import path from "node:path";
 import { mkdirSync } from "node:fs";
-import { createClient, type Client as LibsqlClient } from "@libsql/client";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import type { DatabaseConfig } from "./config";
+
+type SqlParam = string | number | boolean | bigint | null | Uint8Array;
+
+type LibsqlLikeClient = {
+  execute: (query: string, params?: SqlParam[]) => Promise<{ rows: unknown[] }>;
+  close: () => void;
+};
 
 type Database =
   | {
@@ -10,7 +16,7 @@ type Database =
       run: (query: string, params?: SqlParam[]) => Promise<void>;
       query: <TRow>(query: string, params?: SqlParam[]) => Promise<TRow[]>;
       close: () => Promise<void>;
-      raw: LibsqlClient;
+      raw: LibsqlLikeClient;
     }
   | {
       client: "postgres";
@@ -20,12 +26,10 @@ type Database =
       raw: Pool;
     };
 
-type SqlParam = string | number | boolean | bigint | null | Uint8Array;
-
-const createDatabase = (config: DatabaseConfig): Database => {
+const createDatabase = async (config: DatabaseConfig): Promise<Database> => {
   if (config.client === "sqlite") {
     const sqliteUrl = toSqliteUrl(config.sqlitePath);
-    const raw = createClient({ url: sqliteUrl });
+    const raw = await createLibsqlClient(sqliteUrl);
 
     return {
       client: "sqlite",
@@ -43,6 +47,7 @@ const createDatabase = (config: DatabaseConfig): Database => {
     };
   }
 
+  const { Pool } = await import("pg");
   const raw = new Pool({
     connectionString: config.databaseUrl,
   });
@@ -64,6 +69,19 @@ const createDatabase = (config: DatabaseConfig): Database => {
     raw,
   };
 };
+
+const createLibsqlClient = async (url: string): Promise<LibsqlLikeClient> => {
+  if (isWorkerRuntime()) {
+    const { createClient } = await import("@libsql/client");
+    return createClient({ url }) as unknown as LibsqlLikeClient;
+  }
+
+  const { createClient } = await import("@libsql/client/node");
+  return createClient({ url }) as unknown as LibsqlLikeClient;
+};
+
+const isWorkerRuntime = (): boolean =>
+  typeof WebSocketPair !== "undefined" && typeof process === "undefined";
 
 const closeDatabase = async (database: Database): Promise<void> => database.close();
 
@@ -91,4 +109,4 @@ const toPostgresPlaceholders = (query: string): string => {
 };
 
 export { createDatabase, closeDatabase };
-export type { Database };
+export type { Database, SqlParam };

@@ -5,10 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
+    "dev:node": "tsx src/dev-server.ts",
     "build": "wrangler deploy --dry-run",
     "deploy": "wrangler deploy",
     "db:migrate": "tsx src/db/scripts/migrate.ts",
     "db:check": "tsx src/db/scripts/check.ts",
+    "db:seed:test-user": "tsx src/db/scripts/seed-test-user.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint:architecture": "eslint src/modules --max-warnings 0",
@@ -17,9 +19,11 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@hono/node-server": "^1.13.8",
     "@moviescore/shared": "workspace:*",
     "@libsql/client": "^0.15.15",
-    "hono": "^4.6.14"
+    "hono": "^4.6.14",
+    "otplib": "^12.0.1"
   },
   "devDependencies": {
     "@types/pg": "^8.15.6",
