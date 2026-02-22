@@ -1,6 +1,6 @@
 # Deployment Setup
 
-This repository deploys both apps on every merge to `main`.
+This repository runs CI and deploys both apps when a GitHub Release is published.
 
 ## Frontend (Vercel)
 

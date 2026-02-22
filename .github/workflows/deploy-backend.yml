@@ -1,16 +1,8 @@
 name: Deploy Backend (Cloudflare Workers)
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'apps/backend/**'
-      - 'packages/shared/**'
-      - 'pnpm-lock.yaml'
-      - 'pnpm-workspace.yaml'
-      - 'turbo.json'
-      - '.github/workflows/deploy-backend.yml'
-  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   deploy:

@@ -1,16 +1,8 @@
 name: Deploy Frontend (Vercel)
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'apps/frontend/**'
-      - 'packages/shared/**'
-      - 'pnpm-lock.yaml'
-      - 'pnpm-workspace.yaml'
-      - 'turbo.json'
-      - '.github/workflows/deploy-frontend.yml'
-  workflow_dispatch:
+  release:
+    types: [published]
 
 jobs:
   deploy:

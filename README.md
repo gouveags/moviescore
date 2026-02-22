@@ -18,7 +18,7 @@ This project uses a monorepo approach.
 
 ## Deployment Model
 
-On every merge to `main`:
+On every published GitHub Release:
 
 - Frontend deploy workflow: `.github/workflows/deploy-frontend.yml`
 - Backend deploy workflow: `.github/workflows/deploy-backend.yml`

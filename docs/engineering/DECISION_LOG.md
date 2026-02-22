@@ -109,3 +109,22 @@ Add:
 ### Follow-up
 
 - Add repository secrets and perform first deploy verification.
+
+## 2026-02-22 - Trigger CI and deployments only on release publication
+
+### Context
+
+Need workflow executions only when a new release version is created.
+
+### Decision
+
+Change `.github/workflows/ci.yml`, `.github/workflows/deploy-frontend.yml`, and `.github/workflows/deploy-backend.yml` to trigger only on `release` with `types: [published]`.
+
+### Consequences
+
+- No CI/deploy runs on regular pushes or pull requests.
+- Workflows run only when a release is published.
+
+### Follow-up
+
+- Use GitHub Releases to control deployment cadence.
