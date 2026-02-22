@@ -59,4 +59,4 @@ Business logic for ranking and deltas should remain in shared/backend layers, no
 - Unit/component tests for critical UI logic and interaction state
 - End-to-end tests for key user journeys
 - Accessibility checks for interactive screens
-- Build, lint, format, and test checks enforced in release workflows
+- Build, format, lint, and test checks enforced by CI on pull requests and merges to `main`

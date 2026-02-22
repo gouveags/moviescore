@@ -153,6 +153,54 @@ Existing product docs were centered on a social rating platform. Product directi
 - Translate this product direction into backend domain models and API contracts.
 - Add concrete UX/UI specs and acceptance criteria per core component.
 
+## 2026-02-22 - Enforce backend clean architecture dependency direction with lint + pre-commit
+
+### Context
+
+Need automated guardrails to keep backend module dependencies aligned with clean architecture direction as implementation grows.
+
+### Decision
+
+- Define canonical backend module structure with `domain`, `application`, `infrastructure`, and `delivery` folders.
+- Add ESLint import-boundary restrictions to enforce allowed dependency direction across these layers.
+- Add a dedicated custom linter command: `pnpm lint:architecture`.
+- Run this custom linter on every commit through a pre-commit hook.
+- Document dependency direction and canonical paths with ASCII diagrams in backend architecture docs.
+
+### Consequences
+
+- Architectural violations are caught before commit.
+- Dependency direction remains explicit and enforceable, not only guideline text.
+- Developers must place backend logic in layer-specific paths for rules to apply correctly.
+
+### Follow-up
+
+- Expand rules for cross-module import boundaries once module count grows.
+- Add CI branch-protection checks to require `lint:architecture` status.
+
+## 2026-02-22 - Add fast local pre-commit and pre-push quality gates
+
+### Context
+
+Need a tighter local feedback loop so quality regressions are caught before remote CI while keeping checks fast enough for everyday use.
+
+### Decision
+
+- Configure Husky `pre-commit` to run `pnpm check:commit`.
+- Use `lint-staged` so format/lint checks run only on staged files.
+- Keep clean architecture boundary checks mandatory at commit time via `pnpm lint:architecture`.
+- Configure Husky `pre-push` to run `pnpm check:push` (`lint`, `typecheck`, `test`, `build` via Turborepo).
+
+### Consequences
+
+- Most style/lint/architecture violations fail before commit.
+- Pushes are blocked on integration-level quality checks.
+- Local feedback remains fast due to staged-file checks and Turborepo caching.
+
+### Follow-up
+
+- Monitor hook runtime and optimize any slow commands that regress developer feedback speed.
+
 ## 2026-02-22 - Standardize ESLint/Prettier and enforce quality gates in CI/CD
 
 ### Context
@@ -204,3 +252,77 @@ Need a fast local database workflow while keeping production ready for managed P
 
 - Add production connection pooling and observability metrics once real traffic begins.
 - Expand schema with recommendation-domain entities (events, aggregates, availability snapshots).
+
+## 2026-02-22 - Introduce Codex harness workflow and baseline observability
+
+### Context
+
+Need a repeatable way for coding agents to run app services in isolated worktrees with persisted logs, plus explicit production log access guidance.
+
+### Decision
+
+- Add `scripts/harness/agent-harness.sh` with `create`, `start`, `stop`, `status`, and `tail` commands.
+- Add `pnpm harness -- <command>` script alias at repository root.
+- Add backend structured request logging middleware at `apps/backend/src/platform/observability/request-logger.ts`.
+- Add `docs/engineering/AI_HARNESS.md` and `docs/engineering/OBSERVABILITY.md`.
+- Update standards and deployment docs to require and explain harness/logging usage.
+
+### Consequences
+
+- Agents and developers can run frontend/backend in isolated worktrees without polluting the main checkout.
+- Logs are persisted to file paths that can be referenced during debugging and PR review.
+- Production backend requests now emit structured logs that platform logging tools can consume.
+
+### Follow-up
+
+- Add correlation IDs and request-scoped context fields to backend logs.
+- Evaluate self-hosted log aggregation (for example Grafana Loki + Promtail) if central retention is required.
+
+## 2026-02-22 - Harden harness engineering with policy checks and OSS log stack
+
+### Context
+
+Harness and observability baseline existed but key guarantees were still manual (hook policy drift, CI policy drift, and local log aggregation setup).
+
+### Decision
+
+- Add `pnpm policy:check` script and enforce it in CI plus Husky pre-commit/pre-push checks.
+- Add repository policy verifier: `scripts/policy/verify-harness-policy.sh`.
+- Extend harness commands with:
+  - `bootstrap` (create + install)
+  - `obs-up`, `obs-status`, `obs-down` for local observability stack operations.
+- Add open-source local observability stack config with Loki + Promtail + Grafana in `ops/observability/`.
+- Remove deprecated Husky loader lines to be compatible with Husky v10.
+
+### Consequences
+
+- Harness and logging standards become mechanically enforced instead of convention-only.
+- Developers and agents get consistent local log collection and query workflow using free/open-source tooling.
+- Hook and CI behavior is aligned with documented policy.
+
+### Follow-up
+
+- Add request correlation IDs to backend logs and propagate to frontend logging context.
+- Add dashboards and alert rules for key backend API error/latency signals.
+
+## 2026-02-22 - Run CI on mainline changes and keep deployment release-only
+
+### Context
+
+Quality checks were moved to release-triggered workflows, which prevented tests/lint/format/typecheck from running on pull requests and merges to `main`.
+
+### Decision
+
+- Trigger `.github/workflows/ci.yml` on `pull_request` and `push` for `main`.
+- Keep `.github/workflows/deploy-frontend.yml` and `.github/workflows/deploy-backend.yml` release-triggered (`release.published`).
+- Remove format/lint/test/build verification steps from deploy workflows so release workflows focus on deployment only.
+
+### Consequences
+
+- Pull requests and mainline merges now get immediate quality feedback.
+- Release workflows are shorter and scoped to production deployment.
+- Branch protection can rely on CI checks that run before merge.
+
+### Follow-up
+
+- Mark CI workflow checks as required status checks for the `main` branch protection rule.

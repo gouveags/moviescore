@@ -1,6 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@backend/*": ["src/*"]
+    },
     "types": ["@cloudflare/workers-types", "vitest/globals"],
     "outDir": "dist"
   },

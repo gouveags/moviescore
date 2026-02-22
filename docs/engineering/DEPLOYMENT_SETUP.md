@@ -1,17 +1,13 @@
 # Deployment Setup
 
-This repository runs CI and deploys both apps when a GitHub Release is published.
+This repository uses split automation:
+
+- CI checks (`typecheck`, `format:check`, `lint`, `test`, `build`) run on pull requests to `main` and pushes to `main` via `.github/workflows/ci.yml`.
+- Deployment workflows run only when a GitHub Release is published.
 
 ## Frontend (Vercel)
 
 Workflow: `.github/workflows/deploy-frontend.yml`
-
-Release deploy pipeline quality gates (run before deploy):
-
-- `format:check`
-- `lint`
-- `test`
-- `build`
 
 Required GitHub secrets:
 
@@ -30,13 +26,6 @@ CLI commands to obtain values:
 
 Workflow: `.github/workflows/deploy-backend.yml`
 
-Release deploy pipeline quality gates (run before deploy):
-
-- `format:check`
-- `lint`
-- `test`
-- `build`
-
 Required GitHub secrets:
 
 - `CLOUDFLARE_API_TOKEN`
@@ -48,6 +37,25 @@ CLI commands:
 - `npm i -g wrangler`
 - `wrangler login`
 - `wrangler whoami`
+
+## Production Log Access
+
+Frontend logs:
+
+- `vercel logs <deployment-url-or-name> --token "$VERCEL_TOKEN"`
+
+Backend logs:
+
+- `pnpm --filter @moviescore/backend exec wrangler tail --format json`
+
+Required log-access credentials:
+
+- `VERCEL_TOKEN`
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
+See `docs/engineering/OBSERVABILITY.md` for log format and operations guidance.
+For local open-source aggregation, use the harness observability stack (`pnpm harness -- obs-up`).
 
 ## Database (Neon)
 
