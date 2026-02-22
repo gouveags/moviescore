@@ -7,34 +7,37 @@ MovieScore is an open-source social platform where people can:
 - Discover personalized recommendations
 - Build and showcase their watch history
 
-## Vision
+## Repository Model
 
-Make it easy to track what you watch and find what to watch next through trusted social signals.
+This project uses a monorepo approach.
 
-## MVP Features
+- `apps/frontend`
+- `apps/backend`
+- `packages/shared`
+- `docs`
 
-- User accounts and profiles
-- Movie/TV search and detail pages
-- Ratings (1-10) and reviews
-- Follow friends and view their activity feed
-- Recommendation engine (friends + content similarity)
+## Documentation
 
-## Suggested Tech Stack
+Start from:
 
-- Frontend: Next.js + TypeScript
-- Backend: Next.js API routes or NestJS
-- Database: PostgreSQL
-- ORM: Prisma
-- Auth: NextAuth / Auth.js
-- Deploy: Vercel (web) + managed Postgres
+- `AGENTS.md` (agent/project operating guide)
+- `docs/product/PRODUCT_OVERVIEW.md`
+- `docs/product/MVP_SCOPE.md`
+- `docs/engineering/MONOREPO_ARCHITECTURE.md`
+- `docs/engineering/ENGINEERING_STANDARDS.md`
+- `docs/engineering/TESTING_STRATEGY.md`
+- `docs/engineering/DOCUMENTATION_POLICY.md`
+- `docs/engineering/DECISION_LOG.md`
+- `docs/frontend/FRONTEND_ARCHITECTURE.md`
+- `docs/backend/BACKEND_ARCHITECTURE.md`
 
 ## Project Status
 
-This repository is in bootstrap phase.
+Bootstrap phase. Initial architecture and documentation are being established before implementation.
 
 ## Contributing
 
-Contributions are welcome. Open an issue to discuss features or implementation ideas before large PRs.
+Contributions are welcome. For significant changes, open an issue first to align on product and architecture direction.
 
 ## License
 
