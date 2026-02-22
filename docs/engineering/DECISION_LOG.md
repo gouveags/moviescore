@@ -225,6 +225,31 @@ Need explicit frontend/backend linting and formatting tooling, plus mandatory qu
 
 - Monitor CI duration and optimize the slowest test suites when they regress.
 
+## 2026-02-22 - Introduce Codex harness workflow and baseline observability
+
+### Context
+
+Need a repeatable way for coding agents to run app services in isolated worktrees with persisted logs, plus explicit production log access guidance.
+
+### Decision
+
+- Add `scripts/harness/agent-harness.sh` with `create`, `start`, `stop`, `status`, and `tail` commands.
+- Add `pnpm harness -- <command>` script alias at repository root.
+- Add backend structured request logging middleware at `apps/backend/src/platform/observability/request-logger.ts`.
+- Add `docs/engineering/AI_HARNESS.md` and `docs/engineering/OBSERVABILITY.md`.
+- Update standards and deployment docs to require and explain harness/logging usage.
+
+### Consequences
+
+- Agents and developers can run frontend/backend in isolated worktrees without polluting the main checkout.
+- Logs are persisted to file paths that can be referenced during debugging and PR review.
+- Production backend requests now emit structured logs that platform logging tools can consume.
+
+### Follow-up
+
+- Add correlation IDs and request-scoped context fields to backend logs.
+- Evaluate self-hosted log aggregation (for example Grafana Loki + Promtail) if central retention is required.
+
 ## 2026-02-22 - Run CI on mainline changes and keep deployment release-only
 
 ### Context

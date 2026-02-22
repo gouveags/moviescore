@@ -7,6 +7,7 @@
     "check:commit": "lint-staged && pnpm lint:architecture",
     "check:push": "turbo run lint typecheck test build --continue",
     "dev": "turbo run dev --parallel",
+    "harness": "bash scripts/harness/agent-harness.sh",
     "format": "turbo run format",
     "format:check": "turbo run format:check",
     "lint:architecture": "pnpm --filter @moviescore/backend run lint:architecture",

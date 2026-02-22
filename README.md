@@ -69,6 +69,8 @@ Start from:
 - `docs/engineering/DECISION_LOG.md`
 - `docs/engineering/GIT_WORKFLOW.md`
 - `docs/engineering/DEPLOYMENT_SETUP.md`
+- `docs/engineering/AI_HARNESS.md`
+- `docs/engineering/OBSERVABILITY.md`
 - `docs/frontend/FRONTEND_ARCHITECTURE.md`
 - `docs/frontend/FRONTEND_DESIGN_GUIDELINES.md`
 - `docs/backend/BACKEND_ARCHITECTURE.md`

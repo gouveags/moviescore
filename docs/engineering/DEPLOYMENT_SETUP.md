@@ -9,13 +9,6 @@ This repository uses split automation:
 
 Workflow: `.github/workflows/deploy-frontend.yml`
 
-Release deploy pipeline quality gates (run before deploy):
-
-- `format:check`
-- `lint`
-- `test`
-- `build`
-
 Required GitHub secrets:
 
 - `VERCEL_TOKEN`
@@ -33,13 +26,6 @@ CLI commands to obtain values:
 
 Workflow: `.github/workflows/deploy-backend.yml`
 
-Release deploy pipeline quality gates (run before deploy):
-
-- `format:check`
-- `lint`
-- `test`
-- `build`
-
 Required GitHub secrets:
 
 - `CLOUDFLARE_API_TOKEN`
@@ -50,6 +36,24 @@ CLI commands:
 - `npm i -g wrangler`
 - `wrangler login`
 - `wrangler whoami`
+
+## Production Log Access
+
+Frontend logs:
+
+- `vercel logs <deployment-url-or-name> --token "$VERCEL_TOKEN"`
+
+Backend logs:
+
+- `pnpm --filter @moviescore/backend exec wrangler tail --format json`
+
+Required log-access credentials:
+
+- `VERCEL_TOKEN`
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
+See `docs/engineering/OBSERVABILITY.md` for log format and operations guidance.
 
 ## Database (Neon)
 
