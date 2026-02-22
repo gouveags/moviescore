@@ -153,6 +153,54 @@ Existing product docs were centered on a social rating platform. Product directi
 - Translate this product direction into backend domain models and API contracts.
 - Add concrete UX/UI specs and acceptance criteria per core component.
 
+## 2026-02-22 - Enforce backend clean architecture dependency direction with lint + pre-commit
+
+### Context
+
+Need automated guardrails to keep backend module dependencies aligned with clean architecture direction as implementation grows.
+
+### Decision
+
+- Define canonical backend module structure with `domain`, `application`, `infrastructure`, and `delivery` folders.
+- Add ESLint import-boundary restrictions to enforce allowed dependency direction across these layers.
+- Add a dedicated custom linter command: `pnpm lint:architecture`.
+- Run this custom linter on every commit through a pre-commit hook.
+- Document dependency direction and canonical paths with ASCII diagrams in backend architecture docs.
+
+### Consequences
+
+- Architectural violations are caught before commit.
+- Dependency direction remains explicit and enforceable, not only guideline text.
+- Developers must place backend logic in layer-specific paths for rules to apply correctly.
+
+### Follow-up
+
+- Expand rules for cross-module import boundaries once module count grows.
+- Add CI branch-protection checks to require `lint:architecture` status.
+
+## 2026-02-22 - Add fast local pre-commit and pre-push quality gates
+
+### Context
+
+Need a tighter local feedback loop so quality regressions are caught before remote CI while keeping checks fast enough for everyday use.
+
+### Decision
+
+- Configure Husky `pre-commit` to run `pnpm check:commit`.
+- Use `lint-staged` so format/lint checks run only on staged files.
+- Keep clean architecture boundary checks mandatory at commit time via `pnpm lint:architecture`.
+- Configure Husky `pre-push` to run `pnpm check:push` (`lint`, `typecheck`, `test`, `build` via Turborepo).
+
+### Consequences
+
+- Most style/lint/architecture violations fail before commit.
+- Pushes are blocked on integration-level quality checks.
+- Local feedback remains fast due to staged-file checks and Turborepo caching.
+
+### Follow-up
+
+- Monitor hook runtime and optimize any slow commands that regress developer feedback speed.
+
 ## 2026-02-22 - Standardize ESLint/Prettier and enforce quality gates in CI/CD
 
 ### Context
