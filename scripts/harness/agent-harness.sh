@@ -112,9 +112,17 @@ start_service() {
 
   (
     cd "$worktree_path"
-    nohup bash -lc "$command" >"$log_file" 2>&1 &
+    nohup setsid bash -lc "exec $command" >"$log_file" 2>&1 < /dev/null &
     echo $! >"$pid_file"
   )
+
+  sleep 1
+  if [[ ! -f "$pid_file" ]] || ! kill -0 "$(cat "$pid_file")" 2>/dev/null; then
+    echo "Failed to start $service_name. Recent log output:" >&2
+    sed -n '1,80p' "$log_file" >&2 || true
+    rm -f "$pid_file"
+    return 1
+  fi
 
   echo "Started $service_name (pid $(cat "$pid_file"))"
 }
@@ -195,8 +203,8 @@ command_session_start() {
   ensure_running_worktree "$worktree_path"
   mkdir -p "$worktree_path/.harness/logs" "$worktree_path/.harness/pids" "$worktree_path/.harness/artifacts"
 
-  start_service "$worktree_path" "backend" "pnpm --filter @moviescore/backend dev"
-  start_service "$worktree_path" "frontend" "pnpm --filter @moviescore/frontend dev"
+  start_service "$worktree_path" "backend" "env FRONTEND_ORIGIN=http://localhost:3000 PORT=8787 pnpm --filter @moviescore/backend run dev:node"
+  start_service "$worktree_path" "frontend" "pnpm --filter @moviescore/frontend exec next dev -p 3000"
   session_mark_status "$worktree_path" "running"
 
   echo "Logs directory: $worktree_path/.harness/logs"

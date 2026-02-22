@@ -12,6 +12,30 @@ Defines high-level architecture for `apps/backend`.
 - Delta computation and recommendation ranking
 - API contracts and persistence boundaries
 
+## Auth and Session Security
+
+Auth is implemented in `src/modules/auth` and exposed through `src/modules/auth/delivery/http/register-auth-routes.ts`.
+
+Implemented capabilities:
+
+- Register/login/logout with server-issued sessions
+- Rotating access + refresh tokens
+- Two-factor auth (TOTP) setup, enable, disable
+- Password recovery (request + confirm)
+- Login lockout after repeated failures
+
+Cookie model:
+
+- Access token: `moviescore_access`, `HttpOnly`, `SameSite=Strict`, `Path=/`
+- Refresh token: `moviescore_refresh`, `HttpOnly`, `SameSite=Strict`, `Path=/api/auth`
+- Tokens are never stored in frontend localStorage/sessionStorage
+
+At-rest protection:
+
+- Passwords are hashed with PBKDF2-SHA256 + per-user salt
+- MFA secret is encrypted at rest (AES-GCM)
+- Recovery/reset tokens are stored as hashes
+
 ## Database Strategy
 
 - Local default: SQLite for fast development feedback and zero external dependency.
@@ -177,6 +201,24 @@ Each module should follow:
 - Persist expectation and rating events separately (event-like history), not only flattened current state.
 - Store derived aggregates (e.g., rolling genre delta stats) when it reduces hot-path compute cost.
 - Keep raw events as source of truth to allow re-ranking experiments.
+- Auth storage tables:
+  - `auth_users`
+  - `auth_sessions`
+  - `auth_password_reset_tokens`
+  - `auth_recovery_codes`
+
+## Auth Runtime Config
+
+Production env requirements:
+
+- `AUTH_TOKEN_PEPPER`
+- `APP_ENCRYPTION_KEY` (base64 32-byte key)
+- `FRONTEND_ORIGIN`
+
+Local defaults:
+
+- No database env required (SQLite auto-default)
+- Local test user seed is allowed only in test/dev opt-in paths
 
 ## Performance and Reliability
 

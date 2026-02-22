@@ -35,6 +35,9 @@ Required GitHub secrets:
 - `CLOUDFLARE_API_TOKEN`
 - `CLOUDFLARE_ACCOUNT_ID`
 - `DATABASE_URL`
+- `AUTH_TOKEN_PEPPER`
+- `APP_ENCRYPTION_KEY`
+- `FRONTEND_ORIGIN`
 
 CLI commands:
 
@@ -61,6 +64,15 @@ Required log-access credentials:
 See `docs/engineering/OBSERVABILITY.md` for log format and operations guidance.
 For local open-source aggregation, use the harness observability stack (`pnpm harness -- obs-up`).
 
+## Local Harness Runtime Notes
+
+For local end-to-end validation (`pnpm harness -- start ...`), the backend is started in Node runtime (`dev:node`) on port `8787`.
+
+Why:
+
+- Local SQLite file support is required for seeded auth flow testing.
+- Cloudflare worker runtime is still validated via `wrangler deploy --dry-run` in build checks.
+
 ## Database (Neon)
 
 Recommended free setup:
@@ -73,3 +85,8 @@ Backend database runtime selection:
 
 - Local development: no env required, defaults to SQLite (`./.data/moviescore.db`)
 - Production deploy pipeline: `DB_CLIENT=postgres` and `DATABASE_URL` from GitHub Actions secret
+
+Backend auth runtime selection:
+
+- Local development: secure dev defaults are used if auth secrets are not set
+- Production deploy pipeline: `AUTH_TOKEN_PEPPER` and `APP_ENCRYPTION_KEY` are required

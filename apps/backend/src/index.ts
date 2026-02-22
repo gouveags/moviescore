@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import { registerHealthRoutes } from "@backend/modules/health/delivery/http/register-health-routes";
 import { registerInfoRoutes } from "@backend/modules/info/delivery/http/register-info-routes";
+import { registerAuthRoutes } from "@backend/modules/auth/delivery/http/register-auth-routes";
 import { createRequestLogger } from "@backend/platform/observability/request-logger";
 import { renderPrometheusMetrics } from "@backend/platform/observability/metrics";
 import type { AppEnv } from "@backend/platform/http/app-env";
@@ -13,5 +14,6 @@ app.get("/metrics", (c) =>
 
 registerHealthRoutes(app);
 registerInfoRoutes(app);
+registerAuthRoutes(app);
 
 export default app;

@@ -10,6 +10,7 @@ Defines high-level architecture for `apps/frontend`.
 - Client state and data fetching
 - Accessibility and responsive behavior
 - Fast decision support UX for "what to watch next"
+- Secure auth UX (login/register/recover) and authenticated shell entry
 
 ## Product-Aligned Frontend Goals
 
@@ -53,6 +54,30 @@ Core UI modules should remain independent and composable:
 - Availability display (`AvailabilityPanel`)
 
 Business logic for ranking and deltas should remain in shared/backend layers, not embedded in presentational components.
+
+## Route Map (Current)
+
+- `/` pre-login landing
+- `/login` sign-in with optional 2FA fields
+- `/register` account creation
+- `/recover` password reset request/confirm flow
+- `/home` authenticated entry page (greets user by display name)
+
+## Auth Client Boundary
+
+Auth HTTP calls live in `apps/frontend/lib/auth-api.ts`.
+
+Rules:
+
+- All requests use `credentials: include`
+- Browser storage is not used for auth tokens
+- Session refresh uses backend cookie rotation endpoints (`/api/auth/refresh`)
+
+## Theme Strategy
+
+- Default visual system is true-dark
+- High-contrast accents reserved for decision signals and CTA emphasis
+- Mobile and desktop keep shared tokens but different composition patterns
 
 ## Quality Gates
 

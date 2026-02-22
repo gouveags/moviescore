@@ -3,7 +3,7 @@ import { resolveDatabaseConfig } from "../config";
 
 const run = async (): Promise<void> => {
   const config = resolveDatabaseConfig(process.env);
-  const database = createDatabase(config);
+  const database = await createDatabase(config);
 
   try {
     const rows = await database.query<{ ok: number }>("SELECT 1 AS ok");
