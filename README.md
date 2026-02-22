@@ -28,6 +28,7 @@ Start from:
 - `docs/engineering/TESTING_STRATEGY.md`
 - `docs/engineering/DOCUMENTATION_POLICY.md`
 - `docs/engineering/DECISION_LOG.md`
+- `docs/engineering/GIT_WORKFLOW.md`
 - `docs/frontend/FRONTEND_ARCHITECTURE.md`
 - `docs/backend/BACKEND_ARCHITECTURE.md`
 
