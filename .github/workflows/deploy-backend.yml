@@ -37,6 +37,12 @@ jobs:
       - name: Build check (backend)
         run: pnpm --filter @moviescore/backend run build
 
+      - name: Run DB migrations (postgres)
+        run: pnpm --filter @moviescore/backend run db:migrate
+        env:
+          DB_CLIENT: postgres
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Deploy worker
         run: pnpm --filter @moviescore/backend run deploy
         env:

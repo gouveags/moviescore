@@ -10,6 +10,29 @@ Defines high-level architecture for `apps/backend`.
 - Ratings, reviews, social graph, recommendations
 - API contracts and persistence
 
+## Database Strategy
+
+- Local default: SQLite for fast development feedback and zero external dependency.
+- Production target: Postgres using the same repository and migration flow.
+- Driver selection is environment-driven:
+  - `DB_CLIENT=sqlite` + `SQLITE_PATH=...`
+  - `DB_CLIENT=postgres` + `DATABASE_URL=...`
+
+### Canonical DB Paths
+
+```text
+apps/backend/src/db/
+├── config.ts
+├── client.ts
+├── migrate.ts
+├── rows.ts
+├── repositories/
+│   └── expectation-delta-repository.ts
+└── scripts/
+    ├── check.ts
+    └── migrate.ts
+```
+
 ## Principles
 
 - Domain-driven module boundaries
