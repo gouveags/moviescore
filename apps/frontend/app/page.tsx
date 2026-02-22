@@ -1,7 +1,7 @@
-import React from 'react';
-import { platformTagline } from '@moviescore/shared';
+import React from "react";
+import { platformTagline } from "@moviescore/shared";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export default function HomePage() {
   return (

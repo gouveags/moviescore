@@ -1,20 +1,20 @@
-import { Hono } from 'hono';
-import { platformTagline } from '@moviescore/shared';
+import { Hono } from "hono";
+import { platformTagline } from "@moviescore/shared";
 
 const app = new Hono();
 
-app.get('/health', (c) =>
+app.get("/health", (c) =>
   c.json({
-    status: 'ok',
-    service: 'moviescore-api'
-  })
+    status: "ok",
+    service: "moviescore-api",
+  }),
 );
 
-app.get('/api/info', (c) =>
+app.get("/api/info", (c) =>
   c.json({
-    name: 'MovieScore',
-    tagline: platformTagline
-  })
+    name: "MovieScore",
+    tagline: platformTagline,
+  }),
 );
 
 export default app;

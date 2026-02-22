@@ -6,6 +6,13 @@ This repository runs CI and deploys both apps when a GitHub Release is published
 
 Workflow: `.github/workflows/deploy-frontend.yml`
 
+Release deploy pipeline quality gates (run before deploy):
+
+- `format:check`
+- `lint`
+- `test`
+- `build`
+
 Required GitHub secrets:
 
 - `VERCEL_TOKEN`
@@ -22,6 +29,13 @@ CLI commands to obtain values:
 ## Backend (Cloudflare Workers)
 
 Workflow: `.github/workflows/deploy-backend.yml`
+
+Release deploy pipeline quality gates (run before deploy):
+
+- `format:check`
+- `lint`
+- `test`
+- `build`
 
 Required GitHub secrets:
 

@@ -25,6 +25,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Format check (backend)
+        run: pnpm --filter @moviescore/backend run format:check
+
+      - name: Lint (backend)
+        run: pnpm --filter @moviescore/backend run lint
+
+      - name: Test (backend)
+        run: pnpm --filter @moviescore/backend run test
+
+      - name: Build check (backend)
+        run: pnpm --filter @moviescore/backend run build
+
       - name: Deploy worker
         run: pnpm --filter @moviescore/backend run deploy
         env:
