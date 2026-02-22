@@ -21,3 +21,8 @@ pnpm-debug.log*
 .vscode/
 .idea/
 .DS_Store
+
+# Turbo / TypeScript cache
+.turbo/
+**/.turbo/
+*.tsbuildinfo

@@ -60,3 +60,52 @@ Enable GitHub branch protection for `main` with required pull requests and at le
 ### Follow-up
 
 - Add CI checks as required status checks once pipelines are in place.
+
+## 2026-02-22 - Adopt deploy-first stack for free-tier SSR + API
+
+### Context
+
+Need easy/free deployment before user growth, with automatic deploys on merge and SSR support for search indexing.
+
+### Decision
+
+Use this stack:
+
+- Frontend: Next.js in `apps/frontend`, deployed on Vercel
+- Backend: Hono in `apps/backend`, deployed on Cloudflare Workers
+- Shared contracts: `packages/shared`
+- Database: Neon Postgres (connection string to be configured)
+- Monorepo tooling: pnpm workspaces + Turborepo
+
+### Consequences
+
+- Fast deployments and low operational overhead on free tiers.
+- Strong SSR support for SEO.
+- Requires provider secrets in GitHub Actions.
+
+### Follow-up
+
+- Configure Vercel and Cloudflare tokens/account IDs in GitHub secrets.
+- Configure Neon `DATABASE_URL` for backend runtime.
+
+## 2026-02-22 - Add deploy-on-main GitHub Actions for frontend and backend
+
+### Context
+
+Need automatic deployment for both apps whenever code is merged into `main`.
+
+### Decision
+
+Add:
+
+- `.github/workflows/deploy-frontend.yml` (Vercel deploy)
+- `.github/workflows/deploy-backend.yml` (Cloudflare Workers deploy)
+
+### Consequences
+
+- Deployments become consistent and automated on mainline changes.
+- Secret management becomes required before first successful production deploy.
+
+### Follow-up
+
+- Add repository secrets and perform first deploy verification.

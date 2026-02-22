@@ -1,0 +1,30 @@
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #f5f9ff 0%, #fdf7f1 100%);
+  color: #111827;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+
+h1 {
+  font-size: clamp(2rem, 6vw, 4rem);
+  margin-bottom: 0.5rem;
+}
+
+p {
+  font-size: 1.125rem;
+  line-height: 1.6;
+}
