@@ -1,0 +1,10 @@
+name = "moviescore-api"
+main = "src/index.ts"
+compatibility_date = "2026-02-22"
+workers_dev = true
+
+[vars]
+APP_NAME = "MovieScore API"
+
+[observability.logs]
+enabled = true
