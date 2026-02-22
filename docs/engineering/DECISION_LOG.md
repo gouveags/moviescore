@@ -363,4 +363,31 @@ Harness and observability baseline existed, but execution still depended on manu
 ### Follow-up
 
 - Add distributed trace propagation to downstream integrations once external services are introduced.
+
+## 2026-02-22 - Replace frontend placeholder with product-aligned pre-login landing page
+
+### Context
+
+Frontend home page was still a bootstrap placeholder and did not communicate the expectation-vs-reality product differentiation before authentication.
+
+### Decision
+
+- Implement a full pre-login landing page in `apps/frontend/app/page.tsx`.
+- Apply the documented design direction (editorial + industrial hybrid) with:
+  - Fraunces + Barlow + JetBrains Mono typography roles
+  - mobile-first layout
+  - intentionally different desktop composition
+  - score/data-forward cards and CTA hierarchy
+- Keep accessibility and performance guardrails in the page structure and CSS transitions.
+
+### Consequences
+
+- New visitors get a clear value proposition before login.
+- Frontend now reflects product positioning and brand language from docs.
+- Home page provides a stronger conversion-oriented entrypoint for early-access signup.
+
+### Follow-up
+
+- Connect CTAs to real onboarding/auth routes once auth flow is implemented.
+- Add visual regression and e2e checks for landing page key breakpoints.
 - Expand Playwright scenarios to cover API-driven decision flows beyond smoke coverage.

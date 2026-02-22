@@ -4,7 +4,8 @@ import "./styles.css";
 
 export const metadata: Metadata = {
   title: "MovieScore",
-  description: "Rate movies and TV series, share with friends, and get recommendations.",
+  description:
+    "MovieScore helps you decide what to watch next using expectation and post-watch outcomes.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
