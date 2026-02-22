@@ -28,18 +28,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Format check (frontend)
-        run: pnpm --filter @moviescore/frontend run format:check
-
-      - name: Lint (frontend)
-        run: pnpm --filter @moviescore/frontend run lint
-
-      - name: Test (frontend)
-        run: pnpm --filter @moviescore/frontend run test
-
-      - name: Build check (frontend)
-        run: pnpm --filter @moviescore/frontend run build
-
       - name: Install Vercel CLI
         run: npm i -g vercel@latest
 

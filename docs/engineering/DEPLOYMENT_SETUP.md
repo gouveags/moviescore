@@ -1,6 +1,9 @@
 # Deployment Setup
 
-This repository runs CI and deploys both apps when a GitHub Release is published.
+This repository uses split automation:
+
+- CI checks (`typecheck`, `format:check`, `lint`, `test`, `build`) run on pull requests to `main` and pushes to `main` via `.github/workflows/ci.yml`.
+- Deployment workflows run only when a GitHub Release is published.
 
 ## Frontend (Vercel)
 
