@@ -1,27 +1,31 @@
 # MovieScore Roadmap
 
-## Phase 1: Foundation
+## Phase 1: Foundation and Signal Capture
 
-- Monorepo or single web app setup
-- CI workflow (lint + tests)
-- Auth + user profiles
-- Database schema for users, titles, ratings, reviews
+- Monorepo and deployment baseline
+- Authentication and profile basics
+- Title search/details
+- Expectation scoring flow
+- Watched state + post-watch rating flow
+- Delta computation and storage model
 
-## Phase 2: Core Social Features
+## Phase 2: Recommendation Core
 
-- Follow/unfollow users
-- Activity feed
-- Comments and likes on reviews
-- Privacy controls for profile/activity
+- Initial ranking model using rating + delta + recency
+- Onboarding taste seeding improvements
+- Recommendation explanation snippets ("why this title")
+- Availability-by-region integration with disclaimer
 
-## Phase 3: Recommendations
+## Phase 3: Taste Intelligence
 
-- Content-based recommendations
-- Friend-activity-based recommendations
-- Trending and discovery pages
+- Time-decay weighting and taste evolution modeling
+- Director/actor/genre trust scoring
+- Better cold-start handling
+- Recommendation quality experiments and offline evaluation harness
 
-## Phase 4: Community & Quality
+## Phase 4: Insights and Product Maturity
 
-- Moderation tools and report system
-- Anti-spam / abuse prevention
-- Accessibility and internationalization improvements
+- Taste analytics dashboard
+- Disappointment heatmap and trend views
+- Collaboration/social overlays without feed-first design
+- Accessibility and internationalization hardening

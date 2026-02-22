@@ -129,6 +129,30 @@ Change `.github/workflows/ci.yml`, `.github/workflows/deploy-frontend.yml`, and 
 
 - Use GitHub Releases to control deployment cadence.
 
+## 2026-02-22 - Reposition MovieScore as expectation-vs-reality decision engine
+
+### Context
+
+Existing product docs were centered on a social rating platform. Product direction now focuses on reducing decision fatigue through pre-watch expectation capture, post-watch satisfaction capture, and delta-based recommendation learning.
+
+### Decision
+
+- Update product docs to define MovieScore as a decision engine for what to watch next.
+- Make expectation scoring and expectation-vs-reality delta first-class product capabilities.
+- Prioritize recommendation quality and decision speed over feed-style social engagement in MVP scope.
+- Define frontend design direction with mobile-first UX and intentionally different mobile/desktop compositions.
+
+### Consequences
+
+- Product, roadmap, and MVP documentation now align with a clear differentiation strategy.
+- Frontend implementation should optimize for fast, confidence-backed watch decisions.
+- Social/community features remain possible but are not the main product driver in early phases.
+
+### Follow-up
+
+- Translate this product direction into backend domain models and API contracts.
+- Add concrete UX/UI specs and acceptance criteria per core component.
+
 ## 2026-02-22 - Standardize ESLint/Prettier and enforce quality gates in CI/CD
 
 ### Context
