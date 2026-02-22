@@ -9,6 +9,7 @@
     "deploy": "wrangler deploy",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "lint:architecture": "eslint src/modules --max-warnings 0",
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"

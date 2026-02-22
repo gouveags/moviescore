@@ -4,10 +4,14 @@
   "packageManager": "pnpm@10.30.1",
   "scripts": {
     "build": "turbo run build",
+    "check:commit": "lint-staged && pnpm lint:architecture",
+    "check:push": "turbo run lint typecheck test build --continue",
     "dev": "turbo run dev --parallel",
     "format": "turbo run format",
     "format:check": "turbo run format:check",
+    "lint:architecture": "pnpm --filter @moviescore/backend run lint:architecture",
     "lint": "turbo run lint",
+    "prepare": "husky",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck"
   },
@@ -17,8 +21,22 @@
     "eslint": "^8.57.1",
     "eslint-config-next": "^15.1.0",
     "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.2",
     "prettier": "^3.6.2",
     "turbo": "^2.5.6",
     "typescript": "^5.9.3"
+  },
+  "lint-staged": {
+    "*.{json,md,yml,yaml,css}": [
+      "prettier --check"
+    ],
+    "*.{js,cjs,mjs,ts,tsx}": [
+      "prettier --check",
+      "eslint --max-warnings 0"
+    ],
+    "apps/backend/src/modules/**/*.{ts,tsx}": [
+      "eslint --max-warnings 0"
+    ]
   }
 }
