@@ -250,6 +250,33 @@ Need a repeatable way for coding agents to run app services in isolated worktree
 - Add correlation IDs and request-scoped context fields to backend logs.
 - Evaluate self-hosted log aggregation (for example Grafana Loki + Promtail) if central retention is required.
 
+## 2026-02-22 - Harden harness engineering with policy checks and OSS log stack
+
+### Context
+
+Harness and observability baseline existed but key guarantees were still manual (hook policy drift, CI policy drift, and local log aggregation setup).
+
+### Decision
+
+- Add `pnpm policy:check` script and enforce it in CI plus Husky pre-commit/pre-push checks.
+- Add repository policy verifier: `scripts/policy/verify-harness-policy.sh`.
+- Extend harness commands with:
+  - `bootstrap` (create + install)
+  - `obs-up`, `obs-status`, `obs-down` for local observability stack operations.
+- Add open-source local observability stack config with Loki + Promtail + Grafana in `ops/observability/`.
+- Remove deprecated Husky loader lines to be compatible with Husky v10.
+
+### Consequences
+
+- Harness and logging standards become mechanically enforced instead of convention-only.
+- Developers and agents get consistent local log collection and query workflow using free/open-source tooling.
+- Hook and CI behavior is aligned with documented policy.
+
+### Follow-up
+
+- Add request correlation IDs to backend logs and propagate to frontend logging context.
+- Add dashboards and alert rules for key backend API error/latency signals.
+
 ## 2026-02-22 - Run CI on mainline changes and keep deployment release-only
 
 ### Context

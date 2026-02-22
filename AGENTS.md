@@ -69,6 +69,7 @@ Read this index before making changes. Keep docs in sync with code changes.
 - If a command/test cannot run in current environment, document the gap clearly.
 - Use `docs/engineering/AI_HARNESS.md` harness commands for non-trivial coding sessions.
 - Ensure production-impacting backend changes include structured logging and observability doc updates.
+- Run `pnpm policy:check` before opening PRs that touch harness, logging, hooks, or workflow policy.
 
 ## AGENTS.md in Subprojects
 
