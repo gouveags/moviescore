@@ -34,3 +34,7 @@
 - Pull requests should include tests and doc updates when applicable.
 - Favor small, reviewable PRs over large multi-purpose changes.
 - `main` is protected: use branches + pull requests only (no direct commits).
+
+## Maintenance Goals
+
+- Keep automated tests fast to preserve tight feedback loops for developers.

@@ -24,6 +24,13 @@ No production code may be introduced without first writing a failing automated t
 - Full relevant test suite passes.
 - No known regressions in affected areas.
 
+## Maintenance Goal: Fast Test Feedback
+
+- Keep tests as fast as possible to preserve frequent feedback loops.
+- Prefer unit tests by default; only add integration/e2e coverage where it adds clear value.
+- Avoid slow external dependencies in automated tests when fakes/mocks cover the same behavior.
+- Continuously remove redundant or low-value slow tests.
+
 ## Anti-Patterns
 
 - Writing tests only after code is finished
