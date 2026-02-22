@@ -225,6 +225,34 @@ Need explicit frontend/backend linting and formatting tooling, plus mandatory qu
 
 - Monitor CI duration and optimize the slowest test suites when they regress.
 
+## 2026-02-22 - Use SQLite locally and Postgres in production via one backend DB layer
+
+### Context
+
+Need a fast local database workflow while keeping production ready for managed Postgres without rewriting repositories.
+
+### Decision
+
+- Add a backend DB layer with environment-driven client selection:
+  - SQLite locally (`DB_CLIENT=sqlite`)
+  - Postgres for production (`DB_CLIENT=postgres`)
+- Use shared repository + migration flow for both engines.
+- Add migration/check scripts in backend:
+  - `pnpm db:migrate`
+  - `pnpm db:check`
+- Keep local development zero-config (SQLite defaults) and require database env only in deployment via GitHub secret (`DATABASE_URL`).
+
+### Consequences
+
+- Local setup is fast and dependency-light.
+- Production migration to Postgres is straightforward through env config changes.
+- Schema and repository changes now need to preserve cross-dialect compatibility.
+
+### Follow-up
+
+- Add production connection pooling and observability metrics once real traffic begins.
+- Expand schema with recommendation-domain entities (events, aggregates, availability snapshots).
+
 ## 2026-02-22 - Introduce Codex harness workflow and baseline observability
 
 ### Context
